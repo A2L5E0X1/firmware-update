@@ -16,10 +16,12 @@ jobs:
         include:
           - model: "SM-A516B"
             region: "AUT"
+            imei: "355698111554426"
             files_bl: "keystorage.bin.lz4 ldfw.img.lz4 sboot.bin.lz4 tzar.img.lz4 tzsw.img.lz4 uh.bin.lz4 up_param.bin.lz4"
             files_cp: "modem.bin.lz4 modem_debug.bin.lz4"
           - model: "SM-A716B"
             region: "THL"
+            imei: "354382110611138"
             files_bl: "keystorage.bin.lz4 ldfw.img.lz4 sboot.bin.lz4 tzar.img.lz4 tzsw.img.lz4 uh.bin.lz4 up_param.bin.lz4"
             files_cp: "modem.bin.lz4 modem_debug.bin.lz4"
 
@@ -50,7 +52,7 @@ jobs:
     - name: Fetch firmware
       if: steps.check.outputs.need_update == 1
       run: |
-       samloader -m ${{ matrix.model }} -r ${{ matrix.region }} download -v ${{ steps.check.outputs.latest_version }} -o ${{ matrix.model }}-${{ steps.check.outputs.latest_version_short }}.zip.enc4 -D
+       samloader -m ${{ matrix.model }} -r ${{ matrix.region }} -i ${{ matrix.imei }} download -v ${{ steps.check.outputs.latest_version }} -o ${{ matrix.model }}-${{ steps.check.outputs.latest_version_short }}.zip.enc4 -D
        mkdir -p out
        echo ${{ steps.check.outputs.latest_version_short }} >> version.txt
 
